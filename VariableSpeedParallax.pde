@@ -1,16 +1,16 @@
-class Parallax {
+class VariableSpeedParallax {
   int imageWidth;
-  int speed;
+  Game context;
   PImage image;
   
   // Parallax effect;
   int originalBackgroundX;
   int copyBackgroundX;
   
-  public Parallax(String imageURI, int imageWidth, int speed) {
+  public VariableSpeedParallax(String imageURI, int imageWidth, Game context) {
     this.image = loadImage(imageURI);
     this.imageWidth = imageWidth;
-    this.speed = speed;
+    this.context = context;
     
     this.originalBackgroundX = 0;
     this.copyBackgroundX = this.imageWidth;
@@ -20,8 +20,8 @@ class Parallax {
     image(this.image, this.originalBackgroundX, 0);
     image(this.image, this.copyBackgroundX, 0);
     
-    this.originalBackgroundX -= this.speed;
-    this.copyBackgroundX -= this.speed;
+    this.originalBackgroundX -= this.context.speed;
+    this.copyBackgroundX -= this.context.speed;
     
     // Check if the background is not showing anymore
     if(this.originalBackgroundX < -this.imageWidth) {

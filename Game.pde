@@ -2,11 +2,14 @@ Player player;
 
 Parallax background;
 Parallax poles;
-Parallax buildings;
+VariableSpeedParallax buildings;
 
 SoundFile jumping;
 
 ArrayList<Trash> trashes = new ArrayList<Trash>();
+
+int speed = 4;
+int score = 1;
 
 // Images
 PImage gameOver;
@@ -23,7 +26,7 @@ void setup() {
   // Parallax images
   background = new Parallax("assets/background0000.png", 1810, 1);
   poles = new Parallax("assets/poles0000.png", 2033, 2);
-  buildings = new Parallax("assets/buildings0000.png", 2471, 4);
+  buildings = new VariableSpeedParallax("assets/buildings0000.png", 2469, this);
   
   // Player
   player = new Player(jumping);
@@ -41,7 +44,7 @@ void draw() {
 
   // Show trash
   if(random(1) < 0.005) {
-    trashes.add(new Trash(4));
+    trashes.add(new Trash(this));
   }
 
   for(Trash trash : trashes) {
@@ -54,11 +57,38 @@ void draw() {
     }
   }
   
+  if(frameCount % 10 == 0)
+    score++;
+  
+  if(frameCount %  900 == 0) {
+    speed++;
+    println("Dificuldade aumentou, dificuldade: " + speed);
+  }
+  
+  fill(0);
+  textSize(24);
+  text("Score: " + score, width - 200, 25);
 }
 
+void reset() {
+  player.reset();
+  trashes.clear();
+  background.reset();
+  poles.reset();
+  buildings.reset();
+  score = 1;
+  speed = 4;
+}
+
+void mousePressed() {
+  if(!looping) {
+    reset();
+    looping = true;
+  }
+}
 
 void keyPressed() {
-  if(key == ' ' || keyCode == UP) {
+  if(key == ' ' || keyCode == UP && looping) {
     player.jump();
   }
-}  
+}

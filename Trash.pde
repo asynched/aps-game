@@ -5,13 +5,13 @@ class Trash {
 
   int x;
   int y;
-  int speed;
+  Game context;
 
   PImage image;
  
    
-  public Trash(int speed) {
-    this.speed = speed;
+  public Trash(Game context) {
+    this.context = context;
     this.x = width;
     this.y = height - this.SIZE;
    
@@ -23,7 +23,7 @@ class Trash {
   }
   
   void move() {
-    this.x -= this.speed;
+    this.x -= this.context.speed;
   }
   
   void show() {

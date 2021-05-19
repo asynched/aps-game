@@ -28,7 +28,8 @@ class Player {
   }
   
   void jump() {
-    if(this.y == height - (this.SIZE + this.OFFSET)) {
+    // If the player is touching the ground
+    if(this.isTouchingTheGround() && looping) {
       this.yVelocity = -15;
       this.jumpingSound.play();
     }
@@ -61,10 +62,16 @@ class Player {
   boolean checkIfCollided(Trash trash) {
     float distance = dist(this.x, this.y, trash.x, trash.y);
     
-    if(distance <= 58) {
+    if(distance <= 50) {
       return true;
     }
     
     return false;
+  }
+  
+  void reset() {
+    this.y = height - this.SIZE;
+    this.yVelocity = 0;
+    this.currentImage = 0;
   }
 }
