@@ -12,14 +12,21 @@ int speed = 4;
 int score = 1;
 
 // Images
+PImage start;
 PImage gameOver;
+
+boolean isFirstTimePlaying = true;
 
 void setup() {
   // Game setup
   frameRate(60);
   size(640, 360);
   
+  // Looping
+  looping = false;
+  
   // Load assets
+  start = loadImage("assets/start0000.png");
   gameOver = loadImage("assets/game-over0000.png");
   jumping = new SoundFile(this, "jumping0000.mp3");
 
@@ -43,7 +50,7 @@ void draw() {
   player.move();
 
   // Show trash
-  if(random(1) < 0.005) {
+  if(random(1) < 0.0075) {
     trashes.add(new Trash(this));
   }
 
@@ -65,9 +72,16 @@ void draw() {
     println("Dificuldade aumentou, dificuldade: " + speed);
   }
   
-  fill(0);
-  textSize(24);
-  text("Score: " + score, width - 200, 25);
+  if(looping) {
+    fill(0);
+    textSize(24);
+    text("Score: " + score, width - 200, 25);
+  }
+
+  if(isFirstTimePlaying) { 
+    image(start, 0, 0);
+  }
+  
 }
 
 void reset() {
@@ -81,7 +95,12 @@ void reset() {
 }
 
 void mousePressed() {
-  if(!looping) {
+  if(isFirstTimePlaying) {
+    looping = true;
+    isFirstTimePlaying = false;
+  }
+  
+  if(!looping && !isFirstTimePlaying) {
     reset();
     looping = true;
   }

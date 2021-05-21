@@ -17,7 +17,7 @@ class Player {
   
   public Player(SoundFile sound) {
     this.x = SIZE;
-    this.y = height - SIZE;
+    this.y = height - SIZE - this.OFFSET;
     this.yVelocity = 0;
     
     this.jumpingSound = sound;

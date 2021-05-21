@@ -23,7 +23,7 @@ class Trash {
   }
   
   void move() {
-    this.x -= this.context.speed;
+    this.x -= this.context.speed - 1;
   }
   
   void show() {
