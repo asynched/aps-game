@@ -5,6 +5,8 @@ Parallax poles;
 VariableSpeedParallax buildings;
 
 SoundFile jumping;
+SoundFile music;
+SoundFile death;
 
 ArrayList<Trash> trashes = new ArrayList<Trash>();
 
@@ -29,6 +31,8 @@ void setup() {
   start = loadImage("assets/start0000.png");
   gameOver = loadImage("assets/game-over0000.png");
   jumping = new SoundFile(this, "jumping0000.mp3");
+  death = new SoundFile(this, "death0000.mp3");
+  music = new SoundFile(this, "music0000.mp3");
 
   // Parallax images
   background = new Parallax("assets/background0000.png", 1810, 1);
@@ -37,9 +41,12 @@ void setup() {
   
   // Player
   player = new Player(jumping);
+  
+  music.loop();
 }
 
 void draw() {
+
   background.show();
   poles.show();
   buildings.show();
@@ -50,7 +57,7 @@ void draw() {
   player.move();
 
   // Show trash
-  if(random(1) < 0.0075) {
+  if(random(1) < 0.005) {
     trashes.add(new Trash(this));
   }
 
@@ -60,6 +67,8 @@ void draw() {
     
     if(player.checkIfCollided(trash)) {
       looping = !looping;
+      music.stop();
+      death.play();
       image(gameOver, 0, 0);
     }
   }
@@ -85,6 +94,7 @@ void draw() {
 }
 
 void reset() {
+  music.play();
   player.reset();
   trashes.clear();
   background.reset();
